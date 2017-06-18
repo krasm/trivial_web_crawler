@@ -4,16 +4,21 @@ Python web crawler written in less than an hour.
 ## Getting Started
 Extremelly simple web crawler which will connect to specified 
 web site and create simplified site map. To run it just 
-clone reposiory or download 'crawler.py' and run it like 
-'''
+clone reposiory or download `crawler.py` and run it like 
+```
 python crawler.py example.com
-'''
+```
 to generate simplified site map of http://example.com. Only resources on the initial domain 
-are visited by this crawler. The output is a file 'a-site-map.txt' in which  
+are visited by this crawler. The output is a file `a-site-map.txt` in which  
 all discovered resources are grupped in 3 following categories 
 - resources local to given domain
 - resources in other domains (EXTERNAL SITE LINKED FROM)
 - urls to discovered images (IMAGES)
+
+This code was only tested with python 2.7.13 and it may not run with any other 
+version of Python. 
+
+It shuld not require any external dependencies beside modules shipped with python.
 
 ## TODO 
 * create better site map
