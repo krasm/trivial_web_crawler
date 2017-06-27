@@ -144,7 +144,7 @@ public class Main implements Closeable, Runnable {
 				} catch (IOException | IllegalArgumentException ex) {
 					LOGGER.warn("failed to process " + current, ex);
 				} finally {
-					closeResponse(response);
+					closeCloseable(response);
 				}
 			}
 		} catch (NoSuchElementException ex) {
@@ -152,7 +152,7 @@ public class Main implements Closeable, Runnable {
 		}
 	}
 
-	private static void closeResponse(Closeable closeable) {
+	private static void closeCloseable(Closeable closeable) {
 		if (closeable != null)
 			try { 
 				closeable.close();
