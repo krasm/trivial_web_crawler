@@ -1,30 +1,43 @@
 # Trivial Web Crawler
-Python web crawler written in less than an hour.
+Trivial Java Web Crawler. 
+
+Extremely simple web crawler which will connect to specified 
+web site and create simplified site map. To run it just 
 
 ## Getting Started
-Extremelly simple web crawler which will connect to specified 
-web site and create simplified site map. To run it just 
-clone reposiory or download `crawler.py` and run it like 
+
+It is built with [maven](http://maven.apache.org) and 
+requires [Java 8](http://java.oracle.com). 
+
+To build clone repository and run `mvn package`; the "fat", runnable 
+jar will be created in `./target/crawler-1.0-SNAPSHOT-jar-with-dependencies.jar`.
+
+The application can be run like this 
 ```
-python crawler.py example.com
+java -jar ./target/crawler-1.0-SNAPSHOT-jar-with-dependencies.jar domain
 ```
-to generate simplified site map of http://example.com. Only resources on the initial domain 
-are visited by this crawler. The output is a file `a-site-map.txt` in which  
-all discovered resources are grupped in 3 following categories 
+where `domain`  is http address of the resource to be crawled.
+
+All discovered resources are grouped into 3 categories
 - resources local to given domain
-- resources in other domains (EXTERNAL SITE LINKED FROM)
-- urls to discovered images (IMAGES)
+- resources in other domains 
+- urls to discovered images.
 
-This code was only tested with python 2.7.13 and it may not run with any other 
-version of Python. 
+Discovered links are saved into following 3 files in the working directory:
+- resources local to given domain: local.txt
+- resources non local to given domain: remote.txt
+- discovered images: images.txt
 
-It shuld not require any external dependencies beside modules shipped with python.
+The code is not unit tested as it is mainly integration of
+[HttpClient](https://hc.apache.org/httpcomponents-client-ga/)
+and [jsoup](https://jsoup.org/) but it should be (mocking all 
+needed objects will take more than writing the application itself).
 
 ## TODO 
-* create better site map
+* simplify, there is hardly any reason for use of HTML parser
 * discover more link types 
 * clean code 
-* add tests !!!!!
+* add tests 
 
 ## LICENCE
 This is free and unencumbered software released into the public domain.
