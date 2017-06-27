@@ -61,17 +61,14 @@ class URIStorage {
     /**
      * not good as I returning boolean depends on the link type
      */
-    public boolean addLink(final String url) {
+    public void addLink(final String url) {
         if(isLocal(url)) {
-            LOGGER.info("adding local URL " + url);
+            LOGGER.debug("adding local URL " + url);
             local.add(url);
-            return true;
         } else {
-            LOGGER.info("adding remote URL " + url);
+            LOGGER.debug("adding remote URL " + url);
             remote.add(url);
         }
-
-        return false;
     }
 
     public void addStaticContentRef(final String url) {
@@ -110,18 +107,6 @@ public class Main implements Closeable, Runnable {
 		final String baseHost = new URL(initialUrl).getHost();
         this.uriStorage = new URIStorage(baseHost);
 	}
-
-	/**
-	 * Simple serialization of the crawling
-	 * 
-	 * Create 3 files: 
-	 * <ul>
-	 * <li><code>local.txt</code> with links to resources in the same domain</li>
-	 * <li><code>remote.txt</code> with links to resources in remote systems</li>
-	 * <li><code>images.txt</code> with link to images found</li>
-	 * @throws IOException 
-	 * 
-	 */
 	
 	@Override
 	public void close() throws IOException {
@@ -159,18 +144,21 @@ public class Main implements Closeable, Runnable {
 				} catch (IOException | IllegalArgumentException ex) {
 					LOGGER.warn("failed to process " + current, ex);
 				} finally {
-                    // FIXME make it helper function 
-					if (response != null)
-						try { 
-							response.close();
-						} catch(IOException ex) {
-							LOGGER.warn("failed to close response ", ex);
-						}
+					closeResponse(response);
 				}
 			}
 		} catch (NoSuchElementException ex) {
 			LOGGER.info("crawling finished");
 		}
+	}
+
+	private static void closeResponse(Closeable closeable) {
+		if (closeable != null)
+			try { 
+				closeable.close();
+			} catch(IOException ex) {
+				LOGGER.warn("failed to close response ", ex);
+			}
 	}
 
 	/**
